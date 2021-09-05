@@ -22,30 +22,7 @@ module.exports = {
     "react/jsx-indent": 1,
     quotes: [2, "double"],
     "comma-dangle": 0,
-    indent: 0,
+    "react/jsx-filename-extension": "off",
+    "react/prop-types": "off",
   },
 };
-
-// module.exports = {
-//     extends: "airbnb",
-//     plugins: ["react", "react-hooks"],
-//     parser: "babel-eslint",
-//     env: {
-//       jest: true,
-//     },
-//     rules: {
-
-//       "react/jsx-indent": 1,
-
-//       "react/prop-types": "off",
-//       quotes: [2, "double"],
-//       semi: [2, "never"],
-//       "comma-dangle": 0,
-//       indent: 0,
-//       "global-require": [0],
-//       "no-console": "off"
-//     },
-//     globals: {
-//       fetch: false
-//     }
-//   }
