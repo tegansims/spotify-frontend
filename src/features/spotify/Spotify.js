@@ -1,19 +1,28 @@
 import React, { useState } from "react";
 import {
-  Flex, Button, Text, Input, Link
+  Flex, Button, Text, Input, Link, Spinner
 } from "theme-ui";
 import { UploadIcon } from "@heroicons/react/solid";
 
 const Spotify = () => {
   const [searchedTracks, setSearchedTracks] = useState(null);
   const [searchTracksTerm, setSearchTracksTerm] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+
   const [url, setUrl] = useState();
 
-  const handleSearchTracks = () => fetch(`/tracks/search/${searchTracksTerm}`)
-    .then((res) => res.json())
-    .then((data) => {
-      setSearchedTracks(data.searchedTracks.tracks.items);
-    });
+  const handleSearchTracks = () => {
+    setIsLoading(true);
+    fetch(`/tracks/search/${searchTracksTerm}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setSearchedTracks(data.searchedTracks.tracks.items);
+      })
+      .then(
+        () => setIsLoading(false),
+        (err) => console.error("Error:", err)
+      );
+  };
 
   return (
     <Flex
@@ -33,7 +42,9 @@ const Spotify = () => {
           value={searchTracksTerm}
           onChange={(e) => setSearchTracksTerm(e.target.value)}
         />
-        <Button sx={{ m: 10, width: "100%" }} onClick={handleSearchTracks} disabled={!searchTracksTerm}>Search tracks</Button>
+        <Button sx={{ m: 10, width: "100%" }} onClick={handleSearchTracks} disabled={!searchTracksTerm || isLoading}>
+          {isLoading ? <Spinner size={18} title="loading" sx={{ color: "secondary" }} /> : "Search tracks" }
+        </Button>
       </Flex>
 
       {url && <iframe src={`https://open.spotify.com/embed/track/${url}`} title={url} width="300" height="380" frameBorder="0" allowtransparency="true" allow="encrypted-media" />}
